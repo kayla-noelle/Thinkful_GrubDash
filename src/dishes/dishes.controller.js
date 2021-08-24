@@ -9,8 +9,9 @@ const orders = require("../data/orders-data");
 const nextId = require("../utils/nextId");
 
 // TODO: Implement the /dishes handlers needed to make the tests pass
+//VALIDATORS
 function dishExists(req,res,next) {
-    const {disId } = req.params
+    const {dishId } = req.params
     const foundDish = dishes.find((dish)=> dish.id === dishId)
 
     if(foundDish){
@@ -22,3 +23,23 @@ function dishExists(req,res,next) {
         message:`Dish does not exist ${dishId}`
     })
 }
+
+//HANDLERS
+function list(req, res) {
+    res.json({ data: dishes })
+  }
+
+//   function read(req, res, next) {
+//     const dish = res.locals.dish 
+//     const { dishId } = req.params
+//     const foundDish = dishess.find((dish) => dish.id === Number(dishId))
+    
+//     const newUse = {
+//       id: newUseId,
+//       time: Date.now(),
+//       urlId: Number(urlId),
+//     }
+//     console.log(newUse)
+//     uses.push(newUse)
+//     res.json({ data: foundUrl })
+//   }
