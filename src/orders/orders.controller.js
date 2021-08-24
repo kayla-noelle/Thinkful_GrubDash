@@ -22,3 +22,7 @@ function orderExists(req,res,next) {
         message:`Order does not exist ${orderId}`
     })
 }
+
+module.exports = {
+    list
+  };

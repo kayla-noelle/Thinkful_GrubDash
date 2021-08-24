@@ -24,7 +24,9 @@ function dishExists(req,res,next) {
     })
 }
 
-//HANDLERS
+function checkDish(){}
+
+//HANDLERS {create,read,list,update}
 function list(req, res) {
     res.json({ data: dishes })
   }
@@ -43,3 +45,7 @@ function list(req, res) {
 //     uses.push(newUse)
 //     res.json({ data: foundUrl })
 //   }
+
+module.exports = {
+    list
+  };
