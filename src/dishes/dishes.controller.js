@@ -24,28 +24,51 @@ function dishExists(req,res,next) {
     })
 }
 
-function checkDish(){}
+function validateDishProperties(req,res,next){
+    const { data:{name, description, price, image_url},} = req.body;
+    for(const prop of req.body){
+        if(!prop in )
+    }
+}
+//   function validateProperties(obj, arrProp){
+//     for(const prop of arrProp){
+//       //if(!(prop in obj)){
+//       //if(!obj[prop]){
+//       if(!obj.hasOwnProperty(prop)){
+//         return false
+//       }
+//     }
+//     return true
+//   }
+
 
 //HANDLERS {create,read,list,update}
 function list(req, res) {
     res.json({ data: dishes })
   }
 
-//   function read(req, res, next) {
-//     const dish = res.locals.dish 
-//     const { dishId } = req.params
-//     const foundDish = dishess.find((dish) => dish.id === Number(dishId))
-    
-//     const newUse = {
-//       id: newUseId,
-//       time: Date.now(),
-//       urlId: Number(urlId),
-//     }
-//     console.log(newUse)
-//     uses.push(newUse)
-//     res.json({ data: foundUrl })
-//   }
+  function create (req, res){
+      const {data:{ name, description, price, image_url },} = req.body;
+      const newDish ={
+          id: nextId (),
+          name,
+          description,
+          price,
+          image_url,
+      }
+      dishes.push(newDish);
+      res.status(201).json({data:newDish});
+  }
+
+   function read(req, res, next) {
+    res.json({ data: dishes})
+  }
 
 module.exports = {
-    list
+    list,
+    read:[dishExists,read],
+    create:[create],
+    update:[update]
   };
+
+  
