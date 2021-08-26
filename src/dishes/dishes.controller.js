@@ -24,22 +24,23 @@ function dishExists(req,res,next) {
     })
 }
 
-function validateDishProperties(req,res,next){
-    const { data:{name, description, price, image_url},} = req.body;
-    for(const prop of req.body){
-        if(!prop in )
-    }
-}
-//   function validateProperties(obj, arrProp){
-//     for(const prop of arrProp){
-//       //if(!(prop in obj)){
-//       //if(!obj[prop]){
-//       if(!obj.hasOwnProperty(prop)){
-//         return false
-//       }
-//     }
-//     return true
-//   }
+function validateDishProps(req,res,next){
+     const { data:{name,description,price, image_url} } = req.body;
+    if(!name || name == "")
+    return next({status: 400, message: 'Dish must include a name'});
+    if (!description || description == "")
+    return next({ status: 400, message: "Dish must include a description" });
+  if (!price)
+    return next({ status: 400, message: "Dish must include a price" });
+  if (typeof price !== "number" || price <= 0)
+    return next({
+      status: 400,
+      message: "Dish must have a price that is an integer greater than 0",
+    });
+  if (!image_url || image_url == "")
+    return next({ status: 400, message: "Dish must include an image_url" });
+    next();
+};
 
 
 //HANDLERS {create,read,list,update}
@@ -60,15 +61,34 @@ function list(req, res) {
       res.status(201).json({data:newDish});
   }
 
-   function read(req, res, next) {
-    res.json({ data: dishes})
+  function read(req, res, next) {
+    res.json({ data: res.locals.dish });
+  }
+  
+
+  function update(req, res, next) {
+    const originalId = req.params.dishId;
+    const {
+      data: { id, name, description, price, image_url },
+    } = req.body;
+    const updatedDish = {
+      id: originalId,
+      name,
+      description,
+      price,
+      image_url,
+    };
+    if (id && id !== req.params.dishId)
+      return next({
+        status: 400,
+        message: `Dish id ${id} does not match dish id ${req.params.dishId}`,
+      });
+    res.json({ data: updatedDish });
   }
 
 module.exports = {
     list,
     read:[dishExists,read],
-    create:[create],
-    update:[update]
+    create:[validateDishProps,create],
+    update:[dishExists, validateDishProps,update]
   };
-
-  
